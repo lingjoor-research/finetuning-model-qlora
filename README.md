@@ -10,8 +10,8 @@ bash run.sh
 ```
 sftp -P <port> -i ~/.ssh/id_ed25519 root@<ip>
 
-# uploaded
+# upload
 put -r /local/directory/path/ 
-# downloaded
+# download
 get -r directoryname /local/destination/directory/path/ 
 ```
