@@ -1,9 +1,10 @@
 # finetuning-model-qlora
 
 ## on runpod.io
-``` apt update 
-    apt upgrade
-    bash run.sh
+``` 
+apt update 
+apt upgrade
+bash run.sh
 ```
 #### STF
 ```
