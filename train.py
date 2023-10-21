@@ -52,7 +52,7 @@ def modify_dataset_3_record(record):
     combined_context = input_value + " " + context_value  
 
     return {
-        'instruction': f"(Quality: {record['quality_gain']}) + {record['instruction']}",
+        'instruction': f"([quality] {record['quality_gain']} [/quality]) + {record['instruction']}",
         'context': combined_context,
         'response': record['output'],
         'category': None 
