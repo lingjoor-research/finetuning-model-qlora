@@ -62,7 +62,7 @@ gradient_checkpointing = True
 max_grad_norm = 0.12
 
 # Initial learning rate (AdamW optimizer)
-learning_rate = 1e-4
+learning_rate = 5e-3
 
 # Weight decay to apply to all layers except bias/LayerNorm weights
 weight_decay = 0.001
@@ -74,7 +74,7 @@ optim = "paged_adamw_32bit"
 lr_scheduler_type = "cosine"
 
 # Number of training steps (overrides num_train_epochs)
-max_steps = 15
+max_steps = 40_000
 
 # evaluation strategy
 evaluation_strategy = "steps"
@@ -87,11 +87,14 @@ warmup_ratio = 0.03
 group_by_length = True
 
 # Save checkpoint every X updates steps
-save_steps = 5
+save_steps = 10_000
 save_total_limit = 2
 
 # Log every X updates steps
-logging_steps = 5
+logging_steps = 10_000
+
+# save strategy
+save_strategy = "steps"
 
 ################################################################################
 # SFT parameters
@@ -102,7 +105,8 @@ max_seq_length = None
 
 # Pack multiple short examples in the same input sequence to increase efficiency
 packing = False
-neftune_noise_alpha = 5.0
+neftune_noise_alpha = 5
+seed = 42
 
 ################################################################################
 # SFT report

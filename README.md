@@ -15,3 +15,8 @@ put -r /local/directory/path/ get -r /workspace/
 # download
 get -r get -r /workspace/ /local/directory/path 
 ```
+
+#### Training script
+```
+python train.py
+```
