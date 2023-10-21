@@ -40,7 +40,7 @@ output_dir = "./results"
 save_dir = "./model_lora"
 
 # Number of training epochs
-num_train_epochs = 2
+num_train_epochs = 1
 
 # Enable fp16/bf16 training (set bf16 to True with an A100)
 fp16 = True
@@ -102,6 +102,7 @@ max_seq_length = None
 
 # Pack multiple short examples in the same input sequence to increase efficiency
 packing = False
+neftune_noise_alpha = 5.0
 
 ################################################################################
 # SFT report
