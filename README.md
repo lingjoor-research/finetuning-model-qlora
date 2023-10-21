@@ -11,7 +11,7 @@ bash run.sh
 sftp -P <port> -i ~/.ssh/id_ed25519 root@<ip>
 
 # upload
-put -r /local/directory/path/ 
+put -r /local/directory/path/ get -r /workspace/
 # download
-get -r directoryname /local/destination/directory/path/ 
+get -r get -r /workspace/ /local/directory/path 
 ```
