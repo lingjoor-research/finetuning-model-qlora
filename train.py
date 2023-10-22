@@ -118,19 +118,6 @@ class TrainingPipeline:
 
     def initialize_model_and_tokenizer(self):
         logging.info("Initializing model and tokenizer...")
-
-        model_name = config.model_name
-        bnb_config = BitsAndBytesConfig()
-        self.model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=bnb_config, trust_remote_code=True)
-        self.model.config.use_cache = False
-        self.model.config.pretraining_tp = 1
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=True)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-
-        logging.info("Model and tokenizer initialized successfully!")
-
-    def initialize_model_and_tokenizer(self):
-        logging.info("Initializing model and tokenizer...")
         model_name = config.model_name
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=config.use_4bit,
@@ -142,12 +129,12 @@ class TrainingPipeline:
             model_name,
             quantization_config=bnb_config,
             trust_remote_code=True)
-
+    
         self.model.config.use_cache = False
         self.model.config.pretraining_tp = 1
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=True)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-
+        self.tokenizer.pad_token = self.tokenizer.eos_token  # Ensure the padding token is set
+    
         # Find linear layers and configure LoRA
         self.target_modules = find_linear_layers(self.model)
         if not self.target_modules:
