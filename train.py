@@ -139,10 +139,9 @@ class TrainingPipeline:
             bnb_4bit_compute_dtyp=config.bnb_4bit_compute_dtype,
         )
         self.model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    quantization_config=bnb_config,
-    trust_remote_code=True
-)
+            model_name,
+            quantization_config=bnb_config,
+            trust_remote_code=True)
 
         self.model.config.use_cache = False
         self.model.config.pretraining_tp = 1
@@ -173,15 +172,15 @@ class TrainingPipeline:
             output_dir=config.output_dir,
             num_train_epochs=config.num_train_epochs,
             per_device_train_batch_size=config.per_device_train_batch_size,
-            # gradient_accumulation_steps=config.gradient_accumulation_steps,
+            gradient_accumulation_steps=config.gradient_accumulation_steps,
             optim=config.optim,
             logging_steps=config.logging_steps,
             learning_rate=config.learning_rate,
             weight_decay=config.weight_decay,
             fp16=config.fp16,
             bf16=config.bf16,
-            max_grad_norm=config.max_grad_norm,
-            # max_steps=config.max_steps,
+            # max_grad_norm=config.max_grad_norm,
+            max_steps=config.max_steps,
             warmup_ratio=config.warmup_ratio,
             group_by_length=config.group_by_length,
             lr_scheduler_type=config.lr_scheduler_type,

@@ -13,7 +13,7 @@ sftp -P <port> -i ~/.ssh/id_ed25519 root@<ip>
 # upload
 put -r /local/directory/path/ get -r /workspace/
 # download
-get -r get -r /workspace/ /local/directory/path 
+get -r /workspace/ /local/directory/path 
 ```
 
 #### Training script
