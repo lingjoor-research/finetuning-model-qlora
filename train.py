@@ -179,7 +179,7 @@ class TrainingPipeline:
             weight_decay=config.weight_decay,
             fp16=config.fp16,
             bf16=config.bf16,
-            # max_grad_norm=config.max_grad_norm,
+            max_grad_norm=config.max_grad_norm,
             max_steps=config.max_steps,
             warmup_ratio=config.warmup_ratio,
             group_by_length=config.group_by_length,
