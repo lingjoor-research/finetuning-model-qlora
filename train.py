@@ -98,7 +98,6 @@ class TrainingPipeline:
 
         self.datasets = {
             'dataset_1': load_dataset("lingjoor/databricks-dolly-15k-context-32k-rag"),
-            'dataset_3': load_dataset("lingjoor/platypus_with_quality_score"),
             'dataset_4': load_dataset("lingjoor/lima_with_scores"),
             'dataset_5': load_dataset("alexMTL/guanaco_q_a_dataset_1k")
         }
@@ -108,10 +107,12 @@ class TrainingPipeline:
     def preprocess_datasets(self):
         logging.info("Preprocessing datasets...")
 
-        dataset_3_modified = self.datasets['dataset_3']['train'].map(modify_dataset_3_record)
         dataset_4_modified = self.datasets['dataset_4']['train'].map(modify_dataset_4_record)
         dataset_5_modified = self.datasets['dataset_5']['train'].map(lambda record: {'combined_text': record['text']})
-        concatenated_dataset = concatenate_datasets([self.datasets['dataset_1']['train'], dataset_3_modified, dataset_4_modified, dataset_5_modified])
+        concatenated_dataset = concatenate_datasets(
+            [self.datasets['dataset_1']['train'],
+            dataset_4_modified, 
+            dataset_5_modified])
         self.final_dataset = concatenated_dataset.map(create_combined_text)
 
         logging.info("Datasets preprocessed successfully!")
@@ -129,12 +130,12 @@ class TrainingPipeline:
             model_name,
             quantization_config=bnb_config,
             trust_remote_code=True)
-    
+
         self.model.config.use_cache = False
         self.model.config.pretraining_tp = 1
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=True)
-        self.tokenizer.pad_token = self.tokenizer.eos_token  # Ensure the padding token is set
-    
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+
         # Find linear layers and configure LoRA
         self.target_modules = find_linear_layers(self.model)
         if not self.target_modules:
@@ -152,7 +153,7 @@ class TrainingPipeline:
     def train(self):
         logging.info("Starting training...")
         # Initialize Wandb
-        wandb.init(project="1-epoch-dolly-15k-context-32k-rag-platypus-lima-guanaco-neft-qlora")
+        wandb.init(project="1-epoch-dolly-15k-context-32k-rag-lima-guanaco-neft-qlora")
 
         # Training Configuration and Execution
         training_args = TrainingArguments(
@@ -167,7 +168,7 @@ class TrainingPipeline:
             fp16=config.fp16,
             bf16=config.bf16,
             max_grad_norm=config.max_grad_norm,
-            max_steps=config.max_steps,
+            # max_steps=config.max_steps,
             warmup_ratio=config.warmup_ratio,
             group_by_length=config.group_by_length,
             lr_scheduler_type=config.lr_scheduler_type,

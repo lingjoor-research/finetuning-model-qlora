@@ -1,5 +1,5 @@
 # *** Modify the model_name ***
-model_name = "Qwen/Qwen-14B"
+model_name = "mistralai/Mistral-7B-Instruct-v0.1"
 
 ################################################################################
 # QLoRA parameters (for base model)
@@ -41,15 +41,16 @@ save_dir = "./model_lora"
 
 # Number of training epochs
 num_train_epochs = 1
+
 # Enable fp16/bf16 training (set bf16 to True with an A100)
 fp16 = True
 bf16 = False
 
 # Batch size per GPU for training
-per_device_train_batch_size = 1
+per_device_train_batch_size = 3
 
 # Batch size per GPU for evaluation
-per_device_eval_batch_size = 1
+per_device_eval_batch_size = 3
 
 # Number of update steps to accumulate the gradients for
 gradient_accumulation_steps = 5
@@ -61,7 +62,7 @@ gradient_checkpointing = True
 max_grad_norm = 0.12
 
 # Initial learning rate (AdamW optimizer)
-learning_rate = 5e-6
+learning_rate = 1e-5
 
 # Weight decay to apply to all layers except bias/LayerNorm weights
 weight_decay = 0.001
@@ -79,7 +80,7 @@ max_steps = 40_000
 evaluation_strategy = "steps"
 
 # Ratio of steps for a linear warmup (from 0 to learning rate)
-warmup_ratio = 0.1
+warmup_ratio = 0.01
 
 # Group sequences into batches with same length
 # Saves memory and speeds up training considerably
