@@ -6,7 +6,7 @@ apt update
 apt upgrade
 bash run.sh
 ```
-#### STF
+#### SFTP
 ```
 sftp -P <port> -i ~/.ssh/id_ed25519 root@<ip>
 

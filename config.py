@@ -1,5 +1,5 @@
 # *** Modify the model_name ***
-model_name = "mistralai/Mistral-7B-Instruct-v0.1"
+model_name = "Qwen/Qwen-14B"
 
 ################################################################################
 # QLoRA parameters (for base model)
@@ -7,7 +7,7 @@ model_name = "mistralai/Mistral-7B-Instruct-v0.1"
 ################################################################################
 
 # LoRA attention dimension
-lora_r = 128
+lora_r = 64
 
 # Alpha parameter for LoRA scaling
 lora_alpha = 16
@@ -41,7 +41,6 @@ save_dir = "./model_lora"
 
 # Number of training epochs
 num_train_epochs = 1
-
 # Enable fp16/bf16 training (set bf16 to True with an A100)
 fp16 = True
 bf16 = False
@@ -62,7 +61,7 @@ gradient_checkpointing = True
 max_grad_norm = 0.12
 
 # Initial learning rate (AdamW optimizer)
-learning_rate = 2e-6
+learning_rate = 5e-6
 
 # Weight decay to apply to all layers except bias/LayerNorm weights
 weight_decay = 0.001
@@ -77,10 +76,10 @@ lr_scheduler_type = "cosine"
 max_steps = 40_000
 
 # evaluation strategy
-# evaluation_strategy = "steps"
+evaluation_strategy = "steps"
 
 # Ratio of steps for a linear warmup (from 0 to learning rate)
-warmup_ratio = 0.003
+warmup_ratio = 0.1
 
 # Group sequences into batches with same length
 # Saves memory and speeds up training considerably
@@ -112,7 +111,7 @@ seed = 42
 # SFT report
 ################################################################################
 report_to = "wandb"
-# load_best_model_at_end = True
-# early_stopping_patience = 3
+load_best_model_at_end = True
+early_stopping_patience = 3
 
 
