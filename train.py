@@ -64,7 +64,8 @@ def modify_dataset_4_record(record):
     response_value = record['completion'] if record['completion'] is not None else ""
     
     return {
-        'instruction': instruction_value,
+        # 'instruction': instruction_value,
+         'instruction': f"([reward] {record['reward']} [/reward]): {instruction_value}",
         'context': context_value,
         'response': response_value,
         'category': None 
