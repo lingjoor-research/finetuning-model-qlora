@@ -65,7 +65,7 @@ def modify_dataset_4_record(record):
     
     return {
         # 'instruction': instruction_value,
-         'instruction': f"([reward] {record['reward']} [/reward]): {instruction_value}",
+        'instruction': f"([reward] {record['reward']} [/reward]): {instruction_value}",
         'context': context_value,
         'response': response_value,
         'category': None 
@@ -154,6 +154,7 @@ class TrainingPipeline:
     def train(self):
         logging.info("Starting training...")
         # Initialize Wandb
+        wandb.login(key=os.environ.get("WB_API"))
         wandb.init(project="1-epoch-dolly-15k-context-32k-rag-lima-guanaco-neft-qlora")
 
         # Training Configuration and Execution
