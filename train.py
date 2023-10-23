@@ -65,7 +65,7 @@ def modify_dataset_4_record(record):
     
     return {
         # 'instruction': instruction_value,
-        'instruction': f"([reward] {record['reward']} [/reward]): {instruction_value}",
+        'instruction': f"([quality] {record['reward']} [/quality]): {instruction_value}",
         'context': context_value,
         'response': response_value,
         'category': None 
@@ -98,7 +98,7 @@ class TrainingPipeline:
         logging.info("Loading datasets...")
 
         self.datasets = {
-            'dataset_1': load_dataset("lingjoor/databricks-dolly-15k-context-32k-rag"),
+            'dataset_1': load_dataset("lingjoor/databricks-dolly-15k-context-3k-rag"),
             'dataset_4': load_dataset("lingjoor/lima_with_scores"),
             'dataset_5': load_dataset("alexMTL/guanaco_q_a_dataset_1k")
         }
@@ -136,6 +136,8 @@ class TrainingPipeline:
         self.model.config.pretraining_tp = 1
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=True)
         self.tokenizer.pad_token = self.tokenizer.eos_token
+        # self.tokenizer.pad_token = '<|extra_0|>'
+        # self.tokenizer.eos_token = '<|endoftext|>'
 
         # Find linear layers and configure LoRA
         self.target_modules = find_linear_layers(self.model)

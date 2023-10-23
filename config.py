@@ -1,5 +1,5 @@
 # *** Modify the model_name ***
-model_name = "Xwin-LM/Xwin-LM-7B-V0.2"
+model_name = "emrgnt-cmplxty/Mistral-7B-SciPhi-32k"
 
 ################################################################################
 # QLoRA parameters (for base model)
@@ -7,13 +7,13 @@ model_name = "Xwin-LM/Xwin-LM-7B-V0.2"
 ################################################################################
 
 # LoRA attention dimension
-lora_r = 128
+lora_r = 64
 
 # Alpha parameter for LoRA scaling
 lora_alpha = 16
 
 # Dropout probability for LoRA layers
-lora_dropout = 0.2
+lora_dropout = 0.1
 
 ################################################################################
 # bitsandbytes parameters
@@ -47,22 +47,22 @@ fp16 = True
 bf16 = False
 
 # Batch size per GPU for training
-per_device_train_batch_size = 2
+per_device_train_batch_size = 3
 
 # Batch size per GPU for evaluation
-per_device_eval_batch_size = 2
+per_device_eval_batch_size = 3
 
 # Number of update steps to accumulate the gradients for
-gradient_accumulation_steps = 10
+gradient_accumulation_steps = 5
 
 # Enable gradient checkpointing
 gradient_checkpointing = True
 
 # Maximum gradient normal (gradient clipping)
-max_grad_norm = 1.12
+max_grad_norm = 0.12
 
 # Initial learning rate (AdamW optimizer)
-learning_rate = 2e-6
+learning_rate = 2e-5
 
 # Weight decay to apply to all layers except bias/LayerNorm weights
 weight_decay = 0.01
@@ -87,11 +87,11 @@ warmup_ratio = 0.001
 group_by_length = True
 
 # Save checkpoint every X updates steps
-save_steps = 10
+save_steps = 100
 save_total_limit = 2
 
 # Log every X updates steps
-logging_steps = 10
+logging_steps = 100
 
 # save strategy
 save_strategy = "steps"
@@ -104,7 +104,7 @@ save_strategy = "steps"
 max_seq_length = 512
 
 # Pack multiple short examples in the same input sequence to increase efficiency
-packing = True
+packing = False
 neftune_noise_alpha = 3
 seed = 42
 
