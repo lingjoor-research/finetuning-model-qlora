@@ -1,5 +1,5 @@
 # *** Modify the model_name ***
-model_name = "mistralai/Mistral-7B-Instruct-v0.1"
+model_name = "Xwin-LM/Xwin-LM-7B-V0.2"
 
 ################################################################################
 # QLoRA parameters (for base model)
@@ -7,13 +7,13 @@ model_name = "mistralai/Mistral-7B-Instruct-v0.1"
 ################################################################################
 
 # LoRA attention dimension
-lora_r = 64
+lora_r = 128
 
 # Alpha parameter for LoRA scaling
 lora_alpha = 16
 
 # Dropout probability for LoRA layers
-lora_dropout = 0.1
+lora_dropout = 0.2
 
 ################################################################################
 # bitsandbytes parameters
@@ -47,25 +47,25 @@ fp16 = True
 bf16 = False
 
 # Batch size per GPU for training
-per_device_train_batch_size = 3
+per_device_train_batch_size = 2
 
 # Batch size per GPU for evaluation
-per_device_eval_batch_size = 3
+per_device_eval_batch_size = 2
 
 # Number of update steps to accumulate the gradients for
-gradient_accumulation_steps = 5
+gradient_accumulation_steps = 10
 
 # Enable gradient checkpointing
 gradient_checkpointing = True
 
 # Maximum gradient normal (gradient clipping)
-max_grad_norm = 0.12
+max_grad_norm = 1.12
 
 # Initial learning rate (AdamW optimizer)
-learning_rate = 1e-5
+learning_rate = 2e-6
 
 # Weight decay to apply to all layers except bias/LayerNorm weights
-weight_decay = 0.001
+weight_decay = 0.01
 
 # Optimizer to use
 optim = "paged_adamw_32bit"
@@ -80,18 +80,18 @@ max_steps = 40_000
 evaluation_strategy = "steps"
 
 # Ratio of steps for a linear warmup (from 0 to learning rate)
-warmup_ratio = 0.01
+warmup_ratio = 0.001
 
 # Group sequences into batches with same length
 # Saves memory and speeds up training considerably
 group_by_length = True
 
 # Save checkpoint every X updates steps
-save_steps = 100
+save_steps = 10
 save_total_limit = 2
 
 # Log every X updates steps
-logging_steps = 100
+logging_steps = 10
 
 # save strategy
 save_strategy = "steps"
@@ -104,8 +104,8 @@ save_strategy = "steps"
 max_seq_length = 512
 
 # Pack multiple short examples in the same input sequence to increase efficiency
-packing = False
-neftune_noise_alpha = 5
+packing = True
+neftune_noise_alpha = 3
 seed = 42
 
 ################################################################################
