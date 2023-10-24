@@ -82,6 +82,17 @@ def modify_dataset_6_record(record):
         'category': None 
     }
 
+def modify_dataset_7_record(record):
+    instruction_value = record['instruction'] if record['instruction'] is not None else ""
+    response_value = record['output'] if record['output'] is not None else ""
+    
+    return {
+        'instruction': instruction_value,
+        'context': "",  
+        'response': response_value,
+        'category': None 
+    }
+
 def create_combined_text(record):
     instruction_value = record['instruction'] if record['instruction'] is not None else ""
     context_value = record['context'] if record['context'] is not None else ""
@@ -112,7 +123,8 @@ class TrainingPipeline:
             'dataset_1': load_dataset("lingjoor/databricks-dolly-15k-context-3k-rag"),
             'dataset_4': load_dataset("lingjoor/lima_with_scores"),
             'dataset_5': load_dataset("alexMTL/guanaco_q_a_dataset_1k"),
-            'dataset_6': load_dataset("open-phi/rag-textbook-instruct-full")
+            'dataset_6': load_dataset("open-phi/rag-textbook-instruct-full"),
+            'dataset_7': load_dataset("WizardLM/WizardLM_evol_instruct_70k")
         }
 
         logging.info("Datasets loaded successfully!")
@@ -123,11 +135,13 @@ class TrainingPipeline:
         dataset_4_modified = self.datasets['dataset_4']['train'].map(modify_dataset_4_record)
         dataset_5_modified = self.datasets['dataset_5']['train'].map(lambda record: {'combined_text': record['text']})
         dataset_6_modified = self.datasets['dataset_6']['train'].map(modify_dataset_6_record)
+        dataset_7_modified = self.datasets['dataset_7']['train'].map(modify_dataset_7_record)
         concatenated_dataset = concatenate_datasets(
             [self.datasets['dataset_1']['train'],
             dataset_4_modified, 
             dataset_5_modified,
-            dataset_6_modified])
+            dataset_6_modified,
+            dataset_7_modified])
         self.final_dataset = concatenated_dataset.map(create_combined_text)
 
         logging.info("Datasets preprocessed successfully!")
