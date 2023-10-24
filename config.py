@@ -1,5 +1,5 @@
 # *** Modify the model_name ***
-model_name = "emrgnt-cmplxty/Mistral-7B-SciPhi-32k"
+model_name = "mistralai/Mistral-7B-v0.1"
 
 ################################################################################
 # QLoRA parameters (for base model)
