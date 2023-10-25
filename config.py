@@ -1,5 +1,5 @@
 # *** Modify the model_name ***
-model_name = "mistralai/Mistral-7B-v0.1"
+model_name = "Qwen/Qwen-14B"
 
 ################################################################################
 # QLoRA parameters (for base model)
@@ -47,10 +47,10 @@ fp16 = True
 bf16 = False
 
 # Batch size per GPU for training
-per_device_train_batch_size = 3
+per_device_train_batch_size = 2
 
 # Batch size per GPU for evaluation
-per_device_eval_batch_size = 3
+per_device_eval_batch_size = 2
 
 # Number of update steps to accumulate the gradients for
 gradient_accumulation_steps = 5

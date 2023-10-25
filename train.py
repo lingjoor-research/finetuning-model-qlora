@@ -124,7 +124,7 @@ class TrainingPipeline:
             'dataset_4': load_dataset("lingjoor/lima_with_scores"),
             'dataset_5': load_dataset("alexMTL/guanaco_q_a_dataset_1k"),
             'dataset_6': load_dataset("open-phi/rag-textbook-instruct-full"),
-            'dataset_7': load_dataset("WizardLM/WizardLM_evol_instruct_70k")
+            # 'dataset_7': load_dataset("WizardLM/WizardLM_evol_instruct_70k")
         }
 
         logging.info("Datasets loaded successfully!")
@@ -135,13 +135,14 @@ class TrainingPipeline:
         dataset_4_modified = self.datasets['dataset_4']['train'].map(modify_dataset_4_record)
         dataset_5_modified = self.datasets['dataset_5']['train'].map(lambda record: {'combined_text': record['text']})
         dataset_6_modified = self.datasets['dataset_6']['train'].map(modify_dataset_6_record)
-        dataset_7_modified = self.datasets['dataset_7']['train'].map(modify_dataset_7_record)
+        # dataset_7_modified = self.datasets['dataset_7']['train'].map(modify_dataset_7_record)
         concatenated_dataset = concatenate_datasets(
             [self.datasets['dataset_1']['train'],
             dataset_4_modified, 
             dataset_5_modified,
             dataset_6_modified,
-            dataset_7_modified])
+            # dataset_7_modified
+            ])
         self.final_dataset = concatenated_dataset.map(create_combined_text)
 
         logging.info("Datasets preprocessed successfully!")
@@ -157,15 +158,16 @@ class TrainingPipeline:
         )
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
+            use_flash_attn=False,
             quantization_config=bnb_config,
             trust_remote_code=True)
 
         self.model.config.use_cache = False
         self.model.config.pretraining_tp = 1
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=True)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        # self.tokenizer.pad_token = '<|extra_0|>'
-        # self.tokenizer.eos_token = '<|endoftext|>'
+        # self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.pad_token = '<|extra_0|>'
+        self.tokenizer.eos_token = '<|endoftext|>'
 
         # Find linear layers and configure LoRA
         self.target_modules = find_linear_layers(self.model)
